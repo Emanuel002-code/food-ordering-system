@@ -13,7 +13,7 @@ import java.util.List;
   Implements the CategoryService Interface by mapping the categories and categoryDTO
  */
 @Service
-public class CategoryServiceImpl  implements  CatergoryService{
+public class CategoryServiceImpl  implements  CategoryService{
 
 
     private  final CategoryRepository categoryRepository;

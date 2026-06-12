@@ -7,7 +7,7 @@ import java.util.List;
 /*
    Interface for  storing all categories into the list
  */
-public interface CatergoryService {
+public interface CategoryService {
 
     List<CategoryDto> getAllCategories();
 }
