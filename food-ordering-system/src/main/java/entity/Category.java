@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Setter //use lombok to  auto create set methods
 @Entity
+@Table(name = "category")
 public class Category {
 
     @Id
