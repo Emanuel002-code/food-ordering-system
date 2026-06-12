@@ -13,7 +13,6 @@ public class Category {
     private  Long id;
     private String name;
 
-
     //default constructor of  category class
     public Category(){}
 
