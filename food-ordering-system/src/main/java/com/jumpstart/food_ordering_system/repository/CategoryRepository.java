@@ -5,8 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 /**
- * Repository responsible for database operations
- * It related to Category entities.
+  CategoryRepository class responsible for database operations
  */
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 

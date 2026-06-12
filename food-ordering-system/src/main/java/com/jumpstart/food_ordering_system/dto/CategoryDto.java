@@ -1,4 +1,7 @@
 package com.jumpstart.food_ordering_system.dto;
+/*
+  transfer data between layers safely
+ */
 
 public class CategoryDto
 {

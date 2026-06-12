@@ -1,5 +1,7 @@
 package com.jumpstart.food_ordering_system.entity;
-
+/*
+   maps Java objects to database tables
+ */
 import jakarta.persistence.*;
 import lombok.Setter;
 
