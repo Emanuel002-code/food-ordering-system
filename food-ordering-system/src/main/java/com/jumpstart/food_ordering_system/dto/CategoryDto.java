@@ -1,4 +1,4 @@
-package dto;
+package com.jumpstart.food_ordering_system.dto;
 
 public class CategoryDto
 {
@@ -29,7 +29,7 @@ public class CategoryDto
     public void setId(Long id) {
         this.id = id;
     }
-   //setter method for name
+    //setter method for name
     public void setName(String name) {
         this.name = name;
     }

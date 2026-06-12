@@ -1,4 +1,4 @@
-package entity;
+package com.jumpstart.food_ordering_system.entity;
 
 import jakarta.persistence.*;
 import lombok.Setter;
@@ -24,12 +24,12 @@ public class Category {
         this.id=id;
     }
     // getter method for id
-    public Long getId(Long id)
+    public Long getId()
     {
         return this.id;
     }
     //getter method for name
-    public String getName(String name)
+    public String getName()
     {
         return  this.name;
     }

@@ -1,6 +1,6 @@
-package repository;
+package com.jumpstart.food_ordering_system.repository;
 
-import entity.Category;
+import com.jumpstart.food_ordering_system.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

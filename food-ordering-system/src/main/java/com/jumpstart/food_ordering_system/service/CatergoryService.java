@@ -1,6 +1,7 @@
-package service;
+package com.jumpstart.food_ordering_system.service;
 
-import dto.CategoryDto;
+
+import com.jumpstart.food_ordering_system.dto.CategoryDto;
 
 import java.util.List;
 /*
