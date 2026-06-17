@@ -37,7 +37,7 @@ public class CategoryController {
     {
         return  categoryService.getCategoryById(id);
     }
-    @PostMapping
+    @PostMapping("/api/categories" )
     public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto dto)
     {
           CategoryDto savedCategory = categoryService.addCategory(dto);
