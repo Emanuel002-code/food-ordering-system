@@ -47,3 +47,20 @@ Q6. Why return a DTO and not the entity itself? Give 2 reasons.
 
 Q7. What is Optional<T>.  and why does findById return Optional.
 Optional<T> is a container object in Java that may or may not contain a value.  The reason why findById return Optional is because we might not find the Id we are searching in the database.
+
+--------------------------------Quiz-----------------------------------
+Q1. Why ResponseEntity instead of returning the object?
+    ResponseEntity gives you full control over the HTTP response, status code, respose body, headers
+    
+Q2. What status should a successful DELETE return? Why?
+    204- It shows that the data was successfully deleted.
+
+Q3. Update only one field - PUT or PATCH? Defend your answer.
+    PATCH, update only the field that is provided.
+
+Q4. What happens if you forget @Valid on the controller?
+    The data will not be validated.
+
+Q5. Why must update/delete have {id} in the URL but create does not?
+    So that we do not update/delete the entire resources. update/delete needs to know a specific data to modify.
+
