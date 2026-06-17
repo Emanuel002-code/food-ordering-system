@@ -2,6 +2,7 @@ package com.jumpstart.food_ordering_system.controller;
 import com.jumpstart.food_ordering_system.dto.CategoryDto;
 import com.jumpstart.food_ordering_system.service.CategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +25,11 @@ public class CategoryController {
     {
         return categoryService.getAllCategories();
     }
+    @GetMapping("/{id}")
+    public CategoryDto getCategoryById(@PathVariable Long id)
+    {
+        return  categoryService.getCategoryById(id);
+    }
+
 
 }
