@@ -18,13 +18,12 @@ public class CategoryServiceImpl  implements  CategoryService{
 
 
     private  final CategoryRepository categoryRepository;
-  //  private final CategoryService categoryService;
 
     //create a contructor
     public CategoryServiceImpl(CategoryRepository categoryRepository)
     {
         this.categoryRepository = categoryRepository;
-      //  this.categoryService = categoryService;
+
     }
 
   //maps the categories and categoryDTO
@@ -88,6 +87,20 @@ public class CategoryServiceImpl  implements  CategoryService{
 
         //Entity ->DTO
         return  new CategoryDto(updatedCategory.getId(),updatedCategory.getName());
+
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+
+        //get the category by id
+        Optional<Category> category = categoryRepository.findById(id);
+
+        //throw the exception if the category is not found
+        Category deleteCategory = category.orElseThrow(()->new CategoryNotFoundException("Category with id "+id +" not found"));
+
+        //delete the category
+        categoryRepository.delete(deleteCategory);
 
     }
 }
