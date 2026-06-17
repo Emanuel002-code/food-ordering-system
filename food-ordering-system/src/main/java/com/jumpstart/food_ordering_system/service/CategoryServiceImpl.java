@@ -18,11 +18,13 @@ public class CategoryServiceImpl  implements  CategoryService{
 
 
     private  final CategoryRepository categoryRepository;
+  //  private final CategoryService categoryService;
 
     //create a contructor
     public CategoryServiceImpl(CategoryRepository categoryRepository)
     {
         this.categoryRepository = categoryRepository;
+      //  this.categoryService = categoryService;
     }
 
   //maps the categories and categoryDTO
@@ -55,5 +57,19 @@ public class CategoryServiceImpl  implements  CategoryService{
         //create a categoryDTO object
 
         return new CategoryDto(category.getId(),category.getName());
+    }
+
+    @Override
+    public CategoryDto addCategory(CategoryDto dto) {
+        //create category from DOT object
+       Category category= new Category();
+       category.setName(dto.getName());
+
+       //Save to the database
+        Category saveCategory = categoryRepository.save(category);
+
+        //Entity to DTO
+        return new CategoryDto(saveCategory.getId(), saveCategory.getName());
+
     }
 }

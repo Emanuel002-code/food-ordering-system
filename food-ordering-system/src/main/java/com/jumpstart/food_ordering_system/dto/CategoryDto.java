@@ -1,11 +1,15 @@
 package com.jumpstart.food_ordering_system.dto;
+
 /*
   transfer data between layers safely
  */
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CategoryDto
 {
     private Long id;
+    @NotBlank(message = "Category name cannot be empty")
     private String name;
 
     //default constructor

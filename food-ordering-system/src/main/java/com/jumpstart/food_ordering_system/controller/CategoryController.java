@@ -1,10 +1,15 @@
 package com.jumpstart.food_ordering_system.controller;
 import com.jumpstart.food_ordering_system.dto.CategoryDto;
+import com.jumpstart.food_ordering_system.entity.Category;
 import com.jumpstart.food_ordering_system.service.CategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.jumpstart.food_ordering_system.service.CategoryServiceImpl;
+
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -30,6 +35,12 @@ public class CategoryController {
     {
         return  categoryService.getCategoryById(id);
     }
+    @PostMapping
+    public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto dto)
+    {
+          CategoryDto savedCategory = categoryService.addCategory(dto);
 
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
+    }
 
 }
