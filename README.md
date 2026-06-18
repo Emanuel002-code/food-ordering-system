@@ -25,3 +25,13 @@
 5. dto        -used to transfer data between layers safely (sends only required data to the client, prevents exposing database entities directly and improves security and flexibility).
 6. config     -contains application configuration classes (defines beans and settings, handles security,Swagger, etc.).
 7. exception  -handles application errors in a centralized way (manages execeptions, handles errors).
+
+    ------------------------------------------------Endpoints----------------------------------
+
+| Method | URL                       | Body         |
+|--------|---------------------------|--------------|
+| POST   | /api/categories           | { "name" }   |
+| GET    | /api/categories           | -            |
+| GET    | /api/categories/{id}      | -            |
+| PUT    | /api/categories/{id}      | { "name" }   |
+| DELETE | /api/categories/{id}      | -            |
