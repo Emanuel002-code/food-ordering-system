@@ -1,6 +1,7 @@
 package com.jumpstart.food_ordering_system.entity;
 /*
-   maps Java objects to database tables
+ * maps Java objects to database tables
+ * Each category is stored in the category database table.
  */
 import jakarta.persistence.*;
 import lombok.Setter;
@@ -11,6 +12,9 @@ import lombok.Setter;
 @Table(name = "category")
 public class Category {
 
+    /*
+        Unique identifier for the category, generated automatically
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
@@ -19,18 +23,22 @@ public class Category {
     //default constructor of  category class
     public Category(){}
 
-    //constructor or category class
+    //parameterized constructor or category class
     public Category(Long id, String name)
     {
         this.name=name;
         this.id=id;
     }
-    // getter method for id
+    /* getter method for id
+      @return id
+    */
     public Long getId()
     {
         return this.id;
     }
-    //getter method for name
+    /*getter method for name
+     @return name
+     */
     public String getName()
     {
         return  this.name;
