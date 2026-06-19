@@ -51,7 +51,7 @@ public class CategoryServiceImpl  implements  CategoryService{
         Optional<Category> categoryOptional = categoryRepository.findById(id);
 
         // If the category is not found, create an exception object
-        Category category = categoryOptional.orElseThrow(()-> new CategoryNotFoundException("Category with id:"+id+" is not fount"));
+        Category category = categoryOptional.orElseThrow(()-> new CategoryNotFoundException("Category with id:"+id+" is not found"));
 
         //create a categoryDTO object
 
