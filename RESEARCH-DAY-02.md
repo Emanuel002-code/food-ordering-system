@@ -22,3 +22,36 @@ It tells that if a field is null, it will be omitted from the JSON output.
 
 Q7. What is a static factory method? Why use Response.success(...) instead of new Response<>()?
 A static factory method is a method that creates and returns an object. We use  Response.success(...)  to control response creation in one place.
+
+-------------------------------------API Response Format-----------------------
+
+
+All API endpoints return a standard response structure to ensure consistency across the application.
+
+     --------Success Response---------
+{
+  "statusCode": 200,
+  "message": "Category retrieved successfully",
+  "data": {
+    "id": 1,
+    "name": "Pizza"
+  },
+  "timestamp": "2026-06-19T15:30:00"
+}
+
+
+      -----------Error Response-------
+{
+    "statusCode": 404,
+    "message": "Category with id 999 not found",
+    "timestamp": "2026-06-19T15:35:00"
+}
+
+      ---------Response Fields-----
+
+| Field           | Description                                   |
+|-----------------|-----------------------------------------------|
+| statusCode      | HTTP status code of the response              |
+| message         | Human-readable response message               |
+| data            | Response data(category) (if applicable)       |
+| timestamp       | Date and time when the response was generated |
