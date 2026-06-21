@@ -19,7 +19,7 @@ public class CategoryServiceImpl  implements  CategoryService{
 
     private  final CategoryRepository categoryRepository;
 
-    //create a contructor
+    //create a constructor using Dependency Injection Design pattern
     public CategoryServiceImpl(CategoryRepository categoryRepository)
     {
         this.categoryRepository = categoryRepository;

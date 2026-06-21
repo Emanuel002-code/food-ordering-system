@@ -24,10 +24,10 @@ public class Response<T> {
     /*
        Generic method for a success response
      */
-    public static <T>  Response<T> success(int statusCode, String message, T data)
+    public static <T>  Response<T> success(String message, T data)
     {
           return Response.<T>builder()
-                  .statusCode(statusCode)
+                  .statusCode(200)
                   .message(message)
                   .data(data)
                   .timestamp(LocalDateTime.now())
