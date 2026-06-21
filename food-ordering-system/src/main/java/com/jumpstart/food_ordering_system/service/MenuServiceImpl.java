@@ -37,7 +37,7 @@ public class MenuServiceImpl implements MenuService{
         MenuDto menuDto = this.mapToDto(savedMenu);
 
 
-       return Response.success(201,"Menu created successfully",menuDto);
+       return Response.success("Menu created successfully",menuDto);
     }
    // Get all the menus
     @Override
@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService{
         List<MenuDto> menus = menuRepository.findAll()
                                          .stream().map(this::mapToDto).toList();
 
-        return Response.success(200,"Menus retrieved successfully", menus);
+        return Response.success("Menus retrieved successfully", menus);
     }
     // find the mene by id
     @Override
@@ -59,7 +59,7 @@ public class MenuServiceImpl implements MenuService{
         MenuDto menuDto = mapToDto(foundMenu);
 
 
-        return Response.success(200, "Menu retrieved successfully", menuDto);
+        return Response.success( "Menu retrieved successfully", menuDto);
     }
  //Helper method that maps the menus to manuDto
     private MenuDto mapToDto(Menu menu) {

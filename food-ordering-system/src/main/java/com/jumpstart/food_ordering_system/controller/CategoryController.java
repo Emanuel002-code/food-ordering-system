@@ -29,14 +29,14 @@ public class CategoryController {
     {
         List<CategoryDto> categoryList = categoryService.getAllCategories();
 
-        return ResponseEntity.ok(Response.success(200, "Categories retrieved successfully", categoryList));
+        return ResponseEntity.ok(Response.success("Categories retrieved successfully", categoryList));
     }
     @GetMapping("/api/categories/{id}")
     public ResponseEntity<Response<CategoryDto>> getCategoryById(@PathVariable Long id)
     {
         CategoryDto categoryDto= categoryService.getCategoryById(id);
 
-        return  ResponseEntity.ok(Response.success(200, "Category retrieved successfully", categoryDto));
+        return  ResponseEntity.ok(Response.success("Category retrieved successfully", categoryDto));
 
     }
     @PostMapping("/api/categories" )
@@ -44,7 +44,7 @@ public class CategoryController {
     {
          CategoryDto savedCategory = categoryService.addCategory(dto);
 
-         return ResponseEntity.status(HttpStatus.CREATED).body(Response.success(201, "Category created successfully",savedCategory));
+         return ResponseEntity.status(HttpStatus.CREATED).body(Response.success( "Category created successfully",savedCategory));
     }
     @PutMapping("/api/categories/{id}")
     public  ResponseEntity<Response<CategoryDto>> updatedCategory(@PathVariable Long id, @Valid @RequestBody CategoryDto dto)
@@ -52,13 +52,15 @@ public class CategoryController {
 
         CategoryDto updatedCategory = categoryService.updateCategory(id,dto);
 
-        return  ResponseEntity.ok(Response.success(200, "Category updated successfully",updatedCategory));
+        return  ResponseEntity.ok(Response.success( "Category updated successfully",updatedCategory));
     }
     @DeleteMapping("/api/categories/{id}")
     public ResponseEntity<Response<CategoryDto>> deleteCategory(@PathVariable Long id, ServletRequest servletRequest)
     {
         categoryService.deleteCategory(id);
-        return ResponseEntity.ok(Response.success(204, "Category deleted successfully", null));
+        return ResponseEntity.ok(Response.success( "Category deleted successfully", null));
     }
+
+
 
 }
