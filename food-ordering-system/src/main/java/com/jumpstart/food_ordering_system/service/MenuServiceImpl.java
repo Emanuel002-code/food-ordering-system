@@ -62,7 +62,53 @@ public class MenuServiceImpl implements MenuService{
 
         return Response.success( "Menu retrieved successfully", menuDto);
     }
- //Helper method that maps the menus to manuDto
+
+    @Override
+    public Response<MenuDto> updateById(Long id, MenuDto dto) {
+
+        Optional<Menu> menu = menuRepository.findById(id);
+
+        Menu foundMenu = menu.orElseThrow(()-> new MenuNotFoundException("Menu item for id:" +id +" is not found"));
+
+        Optional<Category> category = categoryRepository.findById(dto.getCategoryId());
+
+        Category foundCategory = category.orElseThrow(()->new CategoryNotFoundException("Category for id:"+dto.getCategoryId()+" is not found "));
+
+        //Update if the field is null
+        if(dto.getName() != null ) {
+            foundMenu.setName(dto.getName());
+        }
+        else if(dto.getPrice() != null ){
+            foundMenu.setPrice(dto.getPrice());
+        }
+        else if(dto.getDescription() != null){
+            foundMenu.setDescription(dto.getDescription());
+        }
+        else if(dto.getImageUrl() != null) {
+            foundMenu.setImageUrl(dto.getImageUrl());
+        }
+        foundMenu.setCategory(foundCategory);
+
+        Menu savedMenu = menuRepository.save(foundMenu);
+
+        MenuDto menuDto= mapToDto(savedMenu);
+
+        return Response.success("Menu updated successfully", menuDto);
+    }
+
+    @Override
+    public Response<Void> deleteMenu(Long id) {
+
+        Optional<Menu> menu = menuRepository.findById(id);
+        Menu foudMenu = menu.orElseThrow(()-> new MenuNotFoundException("Menu item for id:" +id +" is not found"));
+
+
+        menuRepository.delete(foudMenu);
+
+        return Response.success("Menu deleted", null);
+    }
+
+    //Helper method that maps the menus to manuDto
     private MenuDto mapToDto(Menu menu) {
 
         return new MenuDto(
