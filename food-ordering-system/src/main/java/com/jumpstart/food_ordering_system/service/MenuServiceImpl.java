@@ -5,6 +5,7 @@ import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.entity.Category;
 import com.jumpstart.food_ordering_system.entity.Menu;
 import com.jumpstart.food_ordering_system.exception.CategoryNotFoundException;
+import com.jumpstart.food_ordering_system.exception.MenuNotFoundException;
 import com.jumpstart.food_ordering_system.repository.CategoryRepository;
 import com.jumpstart.food_ordering_system.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class MenuServiceImpl implements MenuService{
 
         Optional<Menu> menu = menuRepository.findById(id);
 
-        Menu foundMenu = menu.orElseThrow(()->   new RuntimeException("Menu with id " + id + " not found"));
+        Menu foundMenu = menu.orElseThrow(()-> new MenuNotFoundException("Menu with id " + id + " not found"));
 
         MenuDto menuDto = mapToDto(foundMenu);
 
