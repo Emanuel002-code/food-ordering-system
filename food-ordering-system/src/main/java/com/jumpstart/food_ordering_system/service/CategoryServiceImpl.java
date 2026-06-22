@@ -33,12 +33,13 @@ public class CategoryServiceImpl  implements  CategoryService{
         List<Category> categories = categoryRepository.findAll();
         List<CategoryDto> categoryList= new ArrayList<>();
 
-        //create categoryDto object from each caregory
+        //create categoryDto object from each category
         for(Category category: categories)
         {
             CategoryDto dto = new CategoryDto();
             dto.setId(category.getId());
             dto.setName(category.getName());
+            dto.setDescription(category.getDescription());
 
             categoryList.add(dto);
         }
@@ -55,7 +56,7 @@ public class CategoryServiceImpl  implements  CategoryService{
 
         //create a categoryDTO object
 
-        return new CategoryDto(category.getId(),category.getName());
+        return new CategoryDto(category.getId(),category.getName(), category.getDescription());
     }
 
     @Override
@@ -63,12 +64,13 @@ public class CategoryServiceImpl  implements  CategoryService{
         //create category from DOT object
        Category category= new Category();
        category.setName(dto.getName());
+       category.setDescription(dto.getDescription());
 
        //Save to the database
         Category saveCategory = categoryRepository.save(category);
 
         //Entity to DTO
-        return new CategoryDto(saveCategory.getId(), saveCategory.getName());
+        return new CategoryDto(saveCategory.getId(), saveCategory.getName(), saveCategory.getDescription());
 
     }
 
@@ -81,12 +83,17 @@ public class CategoryServiceImpl  implements  CategoryService{
         Category foundCategory = category.orElseThrow(()->new CategoryNotFoundException("Category with id "+id +" not found"));
 
         //update the category
+
         foundCategory.setName(dto.getName());
+
+        if (dto.getDescription() != null)
+        { foundCategory.setDescription(dto.getDescription()); };
+
         //save the updated category
         Category updatedCategory= categoryRepository.save(foundCategory);
 
         //Entity ->DTO
-        return  new CategoryDto(updatedCategory.getId(),updatedCategory.getName());
+        return  new CategoryDto(updatedCategory.getId(),updatedCategory.getName(), updatedCategory.getDescription());
 
     }
 

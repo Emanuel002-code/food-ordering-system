@@ -19,15 +19,17 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
     private String name;
+    private String description;
 
     //default constructor of  category class
     public Category(){}
 
     //parameterized constructor or category class
-    public Category(Long id, String name)
+    public Category(Long id, String name, String description)
     {
         this.name=name;
         this.id=id;
+        this.description= description;
     }
     /* getter method for id
       @return id
@@ -42,5 +44,9 @@ public class Category {
     public String getName()
     {
         return  this.name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
