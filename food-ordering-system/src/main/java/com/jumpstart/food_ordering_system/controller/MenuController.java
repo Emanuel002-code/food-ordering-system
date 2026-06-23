@@ -3,11 +3,13 @@ package com.jumpstart.food_ordering_system.controller;
 
 import com.jumpstart.food_ordering_system.Response.Response;
 import com.jumpstart.food_ordering_system.dto.MenuDto;
+import com.jumpstart.food_ordering_system.entity.Menu;
 import com.jumpstart.food_ordering_system.service.MenuService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.management.ManagementFactory;
 import java.util.List;
 
 @RestController
@@ -41,6 +43,12 @@ public class MenuController {
         Response<MenuDto> response = menuService.getMenuById(id);
 
         return ResponseEntity.ok(response);
+    }
+    @PutMapping("/api/menu/{id}")
+    public ResponseEntity<Response<MenuDto>> updateManu(@PathVariable Long id,@Valid @RequestBody MenuDto menuDto)
+    {
+        Response<MenuDto> response = menuService.updateById(id,menuDto);
+        return  ResponseEntity.ok(response);
     }
 
 }

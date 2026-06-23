@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,20 +75,19 @@ public class MenuServiceImpl implements MenuService{
 
         Category foundCategory = category.orElseThrow(()->new CategoryNotFoundException("Category for id:"+dto.getCategoryId()+" is not found "));
 
-        //Update if the field is null
-        if(dto.getName() != null ) {
+        //Update if the field
             foundMenu.setName(dto.getName());
-        }
-        else if(dto.getPrice() != null ){
             foundMenu.setPrice(dto.getPrice());
-        }
-        else if(dto.getDescription() != null){
+            foundMenu.setCategory(foundCategory);
+
+        //Update if the field
+       if(dto.getDescription() != null){
             foundMenu.setDescription(dto.getDescription());
         }
         else if(dto.getImageUrl() != null) {
             foundMenu.setImageUrl(dto.getImageUrl());
         }
-        foundMenu.setCategory(foundCategory);
+
 
         Menu savedMenu = menuRepository.save(foundMenu);
 
@@ -133,5 +133,10 @@ public class MenuServiceImpl implements MenuService{
         menu.setCategory(category);
 
         return menu;
+    }
+    //Helper method that will find the menus by category
+    public  List<Menu> findMenuByCategory(Category category)
+    {
+        return menuRepository.findByCategory(category);
     }
 }

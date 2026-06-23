@@ -1,8 +1,11 @@
 package com.jumpstart.food_ordering_system.repository;
 
+import com.jumpstart.food_ordering_system.entity.Category;
 import com.jumpstart.food_ordering_system.entity.Menu;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /*
  * Repository interface for Menu entity.
@@ -10,4 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface MenuRepository extends  JpaRepository<Menu,Long> {
 
+    List<Menu> findByCategory(Category category);
+    boolean existsByCategory(Category category);
 }
