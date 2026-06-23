@@ -3,16 +3,15 @@ package com.jumpstart.food_ordering_system.controller;
 
 import com.jumpstart.food_ordering_system.Response.Response;
 import com.jumpstart.food_ordering_system.dto.MenuDto;
-import com.jumpstart.food_ordering_system.entity.Menu;
 import com.jumpstart.food_ordering_system.service.MenuService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.management.ManagementFactory;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/menu")
 public class MenuController {
 
     private  final MenuService menuService;
@@ -21,7 +20,7 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-    @PostMapping("/api/menu")
+    @PostMapping
     public ResponseEntity<Response<MenuDto>> create(@Valid @RequestBody MenuDto menuDto)
     {
         Response<MenuDto> response= menuService.createMenu(menuDto);
@@ -29,25 +28,33 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/api/menu")
+   /* @GetMapping
     public  ResponseEntity<Response<List<MenuDto>>> all()
     {
         Response<List<MenuDto>> menuResponse = menuService.getAllMenus();
 
         return ResponseEntity.ok(menuResponse);
-    }
+    }*/
 
-    @GetMapping("/api/menu/{id}")
+    @GetMapping("/{id}")
     public  ResponseEntity<Response<MenuDto>> byId(@Valid @PathVariable Long id)
     {
         Response<MenuDto> response = menuService.getMenuById(id);
 
         return ResponseEntity.ok(response);
     }
-    @PutMapping("/api/menu/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Response<MenuDto>> updateManu(@PathVariable Long id,@Valid @RequestBody MenuDto menuDto)
     {
         Response<MenuDto> response = menuService.updateById(id,menuDto);
+        return  ResponseEntity.ok(response);
+    }
+    //Get all  menus  and also  get menus by categoryId
+    @GetMapping
+    public ResponseEntity<Response<List<MenuDto>>> getMenusByCategory(@RequestParam(required = false) Long categoryId )
+    {
+        Response<List<MenuDto>> response = menuService.findMenuByCategory(categoryId );
+
         return  ResponseEntity.ok(response);
     }
 

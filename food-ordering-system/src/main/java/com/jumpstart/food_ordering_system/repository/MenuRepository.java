@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface MenuRepository extends  JpaRepository<Menu,Long> {
 
-    List<Menu> findByCategory(Category category);
+    List<Menu> findByCategoryId(Long categoryId);
     boolean existsByCategory(Category category);
 }

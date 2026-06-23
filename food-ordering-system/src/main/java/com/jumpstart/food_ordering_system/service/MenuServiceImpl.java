@@ -9,10 +9,8 @@ import com.jumpstart.food_ordering_system.exception.MenuNotFoundException;
 import com.jumpstart.food_ordering_system.repository.CategoryRepository;
 import com.jumpstart.food_ordering_system.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +39,7 @@ public class MenuServiceImpl implements MenuService{
 
        return Response.success("Menu created successfully",menuDto);
     }
-   // Get all the menus
+   /* Get all the menus
     @Override
     public Response<List<MenuDto>> getAllMenus() {
 
@@ -49,7 +47,7 @@ public class MenuServiceImpl implements MenuService{
                                          .stream().map(this::mapToDto).toList();
 
         return Response.success("Menus retrieved successfully", menus);
-    }
+    } */
     // find the mene by id
     @Override
     public Response<MenuDto> getMenuById(Long id) {
@@ -108,6 +106,25 @@ public class MenuServiceImpl implements MenuService{
         return Response.success("Menu deleted", null);
     }
 
+    //Method that will find the menus by category
+    public  Response<List<MenuDto>> findMenuByCategory(Long categoryId)
+    {
+         List<Menu> menus;
+         String responseMessage;
+
+         if(categoryId != null )
+         {
+             menus = menuRepository.findByCategoryId(categoryId);
+             responseMessage = "Menu items  by category id: "+ categoryId+ "successfully retried";
+         }
+         else {
+             menus = menuRepository.findAll();
+             responseMessage= "Menu retrieved successfully";
+         }
+         List<MenuDto> manusDto = menus.stream().map(this::mapToDto).toList();
+
+        return  Response.success(responseMessage, manusDto);
+    }
     //Helper method that maps the menus to manuDto
     private MenuDto mapToDto(Menu menu) {
 
@@ -133,10 +150,5 @@ public class MenuServiceImpl implements MenuService{
         menu.setCategory(category);
 
         return menu;
-    }
-    //Helper method that will find the menus by category
-    public  List<Menu> findMenuByCategory(Category category)
-    {
-        return menuRepository.findByCategory(category);
     }
 }

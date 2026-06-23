@@ -3,10 +3,8 @@ package com.jumpstart.food_ordering_system.exception;
 import com.jumpstart.food_ordering_system.Response.Response;
 
 import org.springframework.http.HttpStatus;
-//import org.springframework.web.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /*

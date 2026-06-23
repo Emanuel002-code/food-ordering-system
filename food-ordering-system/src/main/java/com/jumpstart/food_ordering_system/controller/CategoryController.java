@@ -3,7 +3,6 @@ import com.jumpstart.food_ordering_system.Response.Response;
 import com.jumpstart.food_ordering_system.dto.CategoryDto;
 import com.jumpstart.food_ordering_system.service.CategoryService;
 
-import jakarta.servlet.ServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService){
 
         this.categoryService = categoryService;
-    };
+    }
     @GetMapping("/api/categories")
     public ResponseEntity<Response<List<CategoryDto>>> getAllCategories()
     {
@@ -55,7 +54,7 @@ public class CategoryController {
         return  ResponseEntity.ok(Response.success( "Category updated successfully",updatedCategory));
     }
     @DeleteMapping("/api/categories/{id}")
-    public ResponseEntity<Response<CategoryDto>> deleteCategory(@PathVariable Long id, ServletRequest servletRequest)
+    public ResponseEntity<Response<CategoryDto>> deleteCategory(@PathVariable Long id)
     {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok(Response.success( "Category deleted successfully", null));
