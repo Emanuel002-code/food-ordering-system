@@ -55,7 +55,11 @@ public class MenuController {
                                                                       @RequestParam(required =false ) String search)
     {
         Response<List<MenuDto>> response;
-        if(search != null )
+        if(search != null && categoryId !=null )
+        {
+            response = menuService.findByCategoryIdSearch(categoryId,search);
+        }
+        else if (search != null )
         {
             response= menuService.searchMenus(search);
 

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -129,6 +130,19 @@ public class MenuServiceImpl implements MenuService{
 
 
         return Response.success("Menu search results for: " + search ,menuDtos);
+    }
+
+    @Override
+    public Response<List<MenuDto>> findByCategoryIdSearch(Long categoryId, String search) {
+
+
+        List<Menu> menus = menuRepository.findByCategoryId(categoryId).stream()
+                    .filter(m -> m.getName().toLowerCase().contains(search.toLowerCase()))
+                    .toList();
+
+        List<MenuDto> menuDto = menus.stream().map(this::mapToDto).toList();
+
+        return Response.success("Menus retrieved successfully",menuDto);
     }
 
     //Helper method that maps the menus to manuDto

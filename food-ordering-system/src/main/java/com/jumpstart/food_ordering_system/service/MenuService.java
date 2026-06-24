@@ -17,5 +17,6 @@ public interface MenuService {
     Response<Void>  deleteMenu(Long id);
     Response<List<MenuDto>> findMenuByCategory(Long categoryId);
     Response<List<MenuDto>> searchMenus(String search);
+    Response<List<MenuDto>> findByCategoryIdSearch(Long categoryId, String search);
 
 }
