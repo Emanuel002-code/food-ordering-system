@@ -15,4 +15,5 @@ public interface MenuRepository extends  JpaRepository<Menu,Long> {
 
     List<Menu> findByCategoryId(Long categoryId);
     boolean existsByCategory(Category category);
+    List<Menu> findByNameContainingIgnoreCase(String search);
 }

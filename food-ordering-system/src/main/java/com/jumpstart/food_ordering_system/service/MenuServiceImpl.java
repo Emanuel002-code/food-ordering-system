@@ -39,7 +39,7 @@ public class MenuServiceImpl implements MenuService{
 
        return Response.success("Menu created successfully",menuDto);
     }
-   /* Get all the menus
+    //Get all the menus
     @Override
     public Response<List<MenuDto>> getAllMenus() {
 
@@ -47,7 +47,7 @@ public class MenuServiceImpl implements MenuService{
                                          .stream().map(this::mapToDto).toList();
 
         return Response.success("Menus retrieved successfully", menus);
-    } */
+    }
     // find the mene by id
     @Override
     public Response<MenuDto> getMenuById(Long id) {
@@ -107,24 +107,30 @@ public class MenuServiceImpl implements MenuService{
     }
 
     //Method that will find the menus by category
+    @Override
     public  Response<List<MenuDto>> findMenuByCategory(Long categoryId)
     {
-         List<Menu> menus;
-         String responseMessage;
 
-         if(categoryId != null )
-         {
-             menus = menuRepository.findByCategoryId(categoryId);
-             responseMessage = "Menu items  by category id: "+ categoryId+ "successfully retried";
-         }
-         else {
-             menus = menuRepository.findAll();
-             responseMessage= "Menu retrieved successfully";
-         }
+             List<Menu>  menus = menuRepository.findByCategoryId(categoryId);
+             String responseMessage = "Menu items  by category id: "+ categoryId+ "successfully retried";
+
          List<MenuDto> manusDto = menus.stream().map(this::mapToDto).toList();
 
         return  Response.success(responseMessage, manusDto);
     }
+
+    @Override
+    public Response<List<MenuDto>> searchMenus(String search) {
+
+
+          List<Menu> menus = menuRepository.findByNameContainingIgnoreCase(search);
+
+          List<MenuDto> menuDtos = menus.stream().map(this::mapToDto).toList();
+
+
+        return Response.success("Menu search results for: " + search ,menuDtos);
+    }
+
     //Helper method that maps the menus to manuDto
     private MenuDto mapToDto(Menu menu) {
 
