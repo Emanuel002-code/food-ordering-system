@@ -9,10 +9,10 @@ import com.jumpstart.food_ordering_system.exception.MenuNotFoundException;
 import com.jumpstart.food_ordering_system.repository.CategoryRepository;
 import com.jumpstart.food_ordering_system.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -139,6 +139,26 @@ public class MenuServiceImpl implements MenuService{
         List<Menu> menus = menuRepository.findByCategoryId(categoryId).stream()
                     .filter(m -> m.getName().toLowerCase().contains(search.toLowerCase()))
                     .toList();
+
+        List<MenuDto> menuDto = menus.stream().map(this::mapToDto).toList();
+
+        return Response.success("Menus retrieved successfully",menuDto);
+    }
+
+    @Override
+    public Response<List<MenuDto>> sortByPrice(String strSort) {
+
+        List<Menu> menus ;
+        if(strSort.equalsIgnoreCase("price,asc")) {
+            menus = menuRepository.findAll(Sort.by(Sort.Direction.ASC, "price"));
+
+        }
+        else if(strSort.equalsIgnoreCase("price,desc")) {
+            menus =menuRepository.findAll(Sort.by(Sort.Direction.DESC,"price"));
+        }
+        else {
+            menus = menuRepository.findAll();
+        }
 
         List<MenuDto> menuDto = menus.stream().map(this::mapToDto).toList();
 

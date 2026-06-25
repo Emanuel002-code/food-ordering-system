@@ -52,7 +52,8 @@ public class MenuController {
     //Get all  menus  and also  get menus by categoryId
     @GetMapping
     public ResponseEntity<Response<List<MenuDto>>> getMenusByCategory(@RequestParam(required = false) Long categoryId,
-                                                                      @RequestParam(required =false ) String search)
+                                                                      @RequestParam(required =false ) String search,
+                                                                      @RequestParam(required = false) String sort)
     {
         Response<List<MenuDto>> response;
         if(search != null && categoryId !=null )
@@ -68,13 +69,16 @@ public class MenuController {
         {
             response = menuService.findMenuByCategory(categoryId);
         }
+        else if(sort != null)
+        {
+            response = menuService.sortByPrice(sort);
+        }
         else
         {
-          response =menuService.getAllMenus();
+          response = menuService.getAllMenus();
         }
 
            return  ResponseEntity.ok(response);
-
 
     }
 
