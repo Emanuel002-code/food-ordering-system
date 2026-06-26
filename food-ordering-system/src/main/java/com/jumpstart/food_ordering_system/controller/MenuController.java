@@ -1,10 +1,12 @@
 package com.jumpstart.food_ordering_system.controller;
 
 
+import com.jumpstart.food_ordering_system.Response.PageResponse;
 import com.jumpstart.food_ordering_system.Response.Response;
 import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.service.MenuService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,31 +53,27 @@ public class MenuController {
     }
     //Get all  menus  and also  get menus by categoryId
     @GetMapping
-    public ResponseEntity<Response<List<MenuDto>>> getMenusByCategory(@RequestParam(required = false) Long categoryId,
-                                                                      @RequestParam(required =false ) String search,
-                                                                      @RequestParam(required = false) String sort)
+    public ResponseEntity<Response<PageResponse<MenuDto>>> getMenus(@RequestParam(required = false) Long categoryId,
+                                                                                 @RequestParam(required =false ) String search,
+                                                                                 @RequestParam(required = false) String sort,   Pageable pageable)
     {
-        Response<List<MenuDto>> response;
-        if(search != null && categoryId !=null )
+        Response<PageResponse<MenuDto>> response;
+       if(search != null && categoryId !=null )
         {
-            response = menuService.findByCategoryIdSearch(categoryId,search);
+            response = menuService.findByCategoryIdSearch(categoryId,search, pageable);
         }
-        else if (search != null )
+         else if (search != null )
         {
-            response= menuService.searchMenus(search);
+            response= menuService.searchMenus(search, pageable);
 
         }
         else if(categoryId !=null)
         {
-            response = menuService.findMenuByCategory(categoryId);
-        }
-        else if(sort != null)
-        {
-            response = menuService.sortByPrice(sort);
+            response = menuService.findMenuByCategory(categoryId, pageable );
         }
         else
         {
-          response = menuService.getAllMenus();
+          response = menuService.getAllMenus(pageable);
         }
 
            return  ResponseEntity.ok(response);

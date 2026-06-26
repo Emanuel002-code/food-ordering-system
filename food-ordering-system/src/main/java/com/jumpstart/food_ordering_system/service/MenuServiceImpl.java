@@ -1,5 +1,6 @@
 package com.jumpstart.food_ordering_system.service;
 
+import com.jumpstart.food_ordering_system.Response.PageResponse;
 import com.jumpstart.food_ordering_system.Response.Response;
 import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.entity.Category;
@@ -9,7 +10,11 @@ import com.jumpstart.food_ordering_system.exception.MenuNotFoundException;
 import com.jumpstart.food_ordering_system.repository.CategoryRepository;
 import com.jumpstart.food_ordering_system.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,12 +47,16 @@ public class MenuServiceImpl implements MenuService{
     }
     //Get all the menus
     @Override
-    public Response<List<MenuDto>> getAllMenus() {
+    public Response<PageResponse<MenuDto>> getAllMenus(Pageable pageable) {
 
-        List<MenuDto> menus = menuRepository.findAll()
-                                         .stream().map(this::mapToDto).toList();
+        Page<Menu> pageMenu  = menuRepository.findAll(pageable);
 
-        return Response.success("Menus retrieved successfully", menus);
+        Page<MenuDto> dtoPage  = pageMenu.map(this::mapToDto);
+
+        PageResponse<MenuDto> pageResponse = PageResponse.from(dtoPage);
+
+
+        return Response.success("Menus retrieved successfully", pageResponse);
     }
     // find the mene by id
     @Override
@@ -109,61 +118,48 @@ public class MenuServiceImpl implements MenuService{
 
     //Method that will find the menus by category
     @Override
-    public  Response<List<MenuDto>> findMenuByCategory(Long categoryId)
-    {
+    public Response<PageResponse<MenuDto>> findMenuByCategory(Long categoryId, Pageable pageable) {
 
-             List<Menu>  menus = menuRepository.findByCategoryId(categoryId);
-             String responseMessage = "Menu items  by category id: "+ categoryId+ "successfully retried";
 
-         List<MenuDto> manusDto = menus.stream().map(this::mapToDto).toList();
+        Page<Menu> menuPage = menuRepository.findByCategoryId(categoryId, pageable);
 
-        return  Response.success(responseMessage, manusDto);
+        Page<MenuDto> dtoPage = menuPage.map(this::mapToDto);
+
+        PageResponse<MenuDto> pageResponse = PageResponse.from(dtoPage);
+
+        String message = "Menu items by category id: " + categoryId + " retrieved successfully";
+
+
+        return Response.success(message, pageResponse);
     }
 
     @Override
-    public Response<List<MenuDto>> searchMenus(String search) {
+    public Response<PageResponse<MenuDto>> searchMenus(String search, Pageable pageable) {
 
 
-          List<Menu> menus = menuRepository.findByNameContainingIgnoreCase(search);
+          Page<Menu> menus = menuRepository.findByNameContainingIgnoreCase(search, pageable);
 
-          List<MenuDto> menuDtos = menus.stream().map(this::mapToDto).toList();
+          Page<MenuDto> menuDtos = menus.map(this::mapToDto);
 
+          PageResponse<MenuDto> response  =  PageResponse.from(menuDtos);
 
-        return Response.success("Menu search results for: " + search ,menuDtos);
+        return Response.success("Menu search results for: " + search ,response);
     }
 
     @Override
-    public Response<List<MenuDto>> findByCategoryIdSearch(Long categoryId, String search) {
+    public Response<PageResponse<MenuDto>> findByCategoryIdSearch(Long categoryId, String search, Pageable pageable){
 
 
-        List<Menu> menus = menuRepository.findByCategoryId(categoryId).stream()
-                    .filter(m -> m.getName().toLowerCase().contains(search.toLowerCase()))
-                    .toList();
+       Page<Menu> menus = menuRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, search, pageable);
 
-        List<MenuDto> menuDto = menus.stream().map(this::mapToDto).toList();
+       Page<MenuDto> menuDto = menus.map(this::mapToDto);
 
-        return Response.success("Menus retrieved successfully",menuDto);
+       PageResponse<MenuDto> menuDtoPageResponse = PageResponse.from(menuDto);
+
+        return Response.success("Menus retrieved successfully",menuDtoPageResponse);
+
     }
 
-    @Override
-    public Response<List<MenuDto>> sortByPrice(String strSort) {
-
-        List<Menu> menus ;
-        if(strSort.equalsIgnoreCase("price,asc")) {
-            menus = menuRepository.findAll(Sort.by(Sort.Direction.ASC, "price"));
-
-        }
-        else if(strSort.equalsIgnoreCase("price,desc")) {
-            menus =menuRepository.findAll(Sort.by(Sort.Direction.DESC,"price"));
-        }
-        else {
-            menus = menuRepository.findAll();
-        }
-
-        List<MenuDto> menuDto = menus.stream().map(this::mapToDto).toList();
-
-        return Response.success("Menus retrieved successfully",menuDto);
-    }
 
     //Helper method that maps the menus to manuDto
     private MenuDto mapToDto(Menu menu) {
@@ -191,4 +187,5 @@ public class MenuServiceImpl implements MenuService{
 
         return menu;
     }
+
 }

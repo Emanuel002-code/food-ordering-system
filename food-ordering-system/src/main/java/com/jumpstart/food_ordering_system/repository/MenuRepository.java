@@ -3,6 +3,8 @@ package com.jumpstart.food_ordering_system.repository;
 import com.jumpstart.food_ordering_system.entity.Category;
 import com.jumpstart.food_ordering_system.entity.Menu;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,8 +15,9 @@ import java.util.List;
  */
 public interface MenuRepository extends  JpaRepository<Menu,Long> {
 
-    List<Menu> findByCategoryId(Long categoryId);
+    Page<Menu> findByCategoryId(Long categoryId, Pageable pageable);
     boolean existsByCategory(Category category);
-    List<Menu> findByNameContainingIgnoreCase(String search);
+    Page<Menu> findByNameContainingIgnoreCase(String search, Pageable pageable);
+    Page<Menu> findByCategoryIdAndNameContainingIgnoreCase(Long categoryId, String search, Pageable pageable);
 
 }

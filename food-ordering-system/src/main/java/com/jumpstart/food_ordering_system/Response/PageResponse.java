@@ -22,7 +22,7 @@ public class PageResponse<T> {
     private boolean first;
     private boolean last;
 
-    public static  <T>  PageResponse<T> page(Page<T> page)
+    public static  <T>  PageResponse<T> from(Page<T> page)
     {
         return  PageResponse.<T>builder()
                 .content(page.getContent())
