@@ -10,6 +10,7 @@ import com.jumpstart.food_ordering_system.exception.CategoryNotFoundException;
 import com.jumpstart.food_ordering_system.exception.MenuNotFoundException;
 import com.jumpstart.food_ordering_system.repository.CategoryRepository;
 import com.jumpstart.food_ordering_system.repository.MenuRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,12 +33,12 @@ public class MenuServiceImpl implements MenuService{
         Category foundCategory= category.orElseThrow(()-> new CategoryNotFoundException("Category with id " + dto.getId() + " not found"));
 
         //maps menuDto -> menu using the helper function
-        Menu menu = this.mapToEntity(dto, foundCategory);
+        Menu menu = Helper.mapToEntity(dto, foundCategory);
 
         Menu savedMenu = menuRepository.save(menu);
 
         //maps menu -> menuDto using the helper function
-        MenuDto menuDto = this.mapToDto(savedMenu);
+        MenuDto menuDto = Helper.mapToDto(savedMenu);
 
 
        return Response.success("Menu created successfully",menuDto);
@@ -48,7 +49,7 @@ public class MenuServiceImpl implements MenuService{
 
         Page<Menu> pageMenu  = menuRepository.findAll(pageable);
 
-        Page<MenuDto> dtoPage  = pageMenu.map(this::mapToDto);
+        Page<MenuDto> dtoPage  = pageMenu.map(Helper::mapToDto);
 
         PageResponse<MenuDto> pageResponse = PageResponse.from(dtoPage);
 
@@ -63,7 +64,7 @@ public class MenuServiceImpl implements MenuService{
 
         Menu foundMenu = menu.orElseThrow(()-> new MenuNotFoundException("Menu with id " + id + " not found"));
 
-        MenuDto menuDto = mapToDto(foundMenu);
+        MenuDto menuDto = Helper.mapToDto(foundMenu);
 
 
         return Response.success( "Menu retrieved successfully", menuDto);
@@ -96,7 +97,7 @@ public class MenuServiceImpl implements MenuService{
 
         Menu savedMenu = menuRepository.save(foundMenu);
 
-        MenuDto menuDto= mapToDto(savedMenu);
+        MenuDto menuDto= Helper.mapToDto(savedMenu);
 
         return Response.success("Menu updated successfully", menuDto);
     }
@@ -134,7 +135,7 @@ public class MenuServiceImpl implements MenuService{
 
         Page<Menu> menuPage = menuRepository.findByCategoryId(categoryId, pageable);
 
-        Page<MenuDto> dtoPage = menuPage.map(this::mapToDto);
+        Page<MenuDto> dtoPage = menuPage.map(Helper::mapToDto);
 
         PageResponse<MenuDto> pageResponse = PageResponse.from(dtoPage);
 
@@ -150,7 +151,7 @@ public class MenuServiceImpl implements MenuService{
 
           Page<Menu> menus = menuRepository.findByNameContainingIgnoreCase(search, pageable);
 
-          Page<MenuDto> menuDtos = menus.map(this::mapToDto);
+          Page<MenuDto> menuDtos = menus.map(Helper::mapToDto);
 
           PageResponse<MenuDto> response  =  PageResponse.from(menuDtos);
 
@@ -163,40 +164,12 @@ public class MenuServiceImpl implements MenuService{
 
        Page<Menu> menus = menuRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, search, pageable);
 
-       Page<MenuDto> menuDto = menus.map(this::mapToDto);
+       Page<MenuDto> menuDto = menus.map(Helper::mapToDto);
 
        PageResponse<MenuDto> menuDtoPageResponse = PageResponse.from(menuDto);
 
         return Response.success("Menus retrieved successfully",menuDtoPageResponse);
 
-    }
-
-
-    //Helper method that maps the menus to manuDto
-    private MenuDto mapToDto(Menu menu) {
-
-        return new MenuDto(
-                menu.getId(),
-                menu.getName(),
-                menu.getPrice(),
-                menu.getCategory().getId(),
-                menu.getCategory().getName(),
-                menu.getDescription(),
-                menu.getImageUrl()
-        );
-    }
-
-    //Helper method that maps the manuDto to menu
-    private Menu mapToEntity(MenuDto dto, Category category) {
-
-        Menu menu = new Menu();
-        menu.setName(dto.getName());
-        menu.setDescription(dto.getDescription());
-        menu.setPrice(dto.getPrice());
-        menu.setImageUrl(dto.getImageUrl());
-        menu.setCategory(category);
-
-        return menu;
     }
 
 }
