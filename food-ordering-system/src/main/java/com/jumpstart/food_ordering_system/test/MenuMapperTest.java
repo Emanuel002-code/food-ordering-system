@@ -4,12 +4,10 @@ import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.entity.Category;
 import com.jumpstart.food_ordering_system.entity.Menu;
 import com.jumpstart.food_ordering_system.service.Helper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MenuMapperTest {
 
@@ -33,14 +31,14 @@ public class MenuMapperTest {
 
 
         MenuDto dto = Helper.mapToDto(menu);
-        assertNotNull(dto);
-        assertEquals(10L, dto.getId());
-        assertEquals("Cheese Burger", dto.getName());
-        assertEquals(new BigDecimal("49.99"), dto.getPrice());
-        assertEquals("Beef burger with cheese", dto.getDescription());
-        assertEquals("image.jpg", dto.getImageUrl());
-        assertEquals(99L, dto.getCategoryId());
-        assertEquals("Fast food", dto.getCategoryName());
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(10L, dto.getId());
+        Assertions.assertEquals("Cheese Burger", dto.getName());
+        Assertions.assertEquals(new BigDecimal("49.99"), dto.getPrice());
+        Assertions.assertEquals("Beef burger with cheese", dto.getDescription());
+        Assertions.assertEquals("image.jpg", dto.getImageUrl());
+        Assertions.assertEquals(99L, dto.getCategoryId());
+        Assertions.assertEquals("Fast food", dto.getCategoryName());
 
 
 
@@ -68,12 +66,12 @@ public class MenuMapperTest {
         Menu menu = Helper.mapToEntity(dto, category);
 
         // Assert
-        assertNotNull(menu);
-        assertEquals("Cheese Burger", menu.getName());
-        assertEquals("Beef burger with cheese", menu.getDescription());
-        assertEquals(new BigDecimal("49.99"), menu.getPrice());
-        assertEquals("image.jpg", menu.getImageUrl());
-        assertEquals(category, menu.getCategory());
+        Assertions.assertNotNull(menu);
+        Assertions.assertEquals("Cheese Burger", menu.getName());
+        Assertions.assertEquals("Beef burger with cheese", menu.getDescription());
+        Assertions.assertEquals(new BigDecimal("49.99"), menu.getPrice());
+        Assertions.assertEquals("image.jpg", menu.getImageUrl());
+        Assertions.assertEquals(category, menu.getCategory());
     }
 
 }

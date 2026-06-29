@@ -34,7 +34,7 @@ public class GlobalExceptionAdvice
     @ExceptionHandler(CategoryHasMenusException.class)
     public ResponseEntity<Response<Void>> handleCategoryHasMenus(CategoryHasMenusException ex) {
 
-        return  ResponseEntity.status(HttpStatus.CONFLICT).body(Response.error(209, ex.getMessage()));
+        return  ResponseEntity.status(HttpStatus.CONFLICT).body(Response.error(409, ex.getMessage()));
     }
     // 400 - Bean Validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -61,12 +61,21 @@ public class GlobalExceptionAdvice
                 .body(Response.error(400, message));
     }
 
-
+/*
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response<Void>> handleException(Exception ex) {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Response.error(500, "An unexpected error occurred."));
+    }
+    */
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Response<Void>> handleException(Exception ex) {
+
+        ex.printStackTrace();
+
+        throw new RuntimeException(ex);
     }
 
 

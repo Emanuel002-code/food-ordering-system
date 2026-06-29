@@ -95,5 +95,4 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
-
 }
