@@ -2,6 +2,7 @@ package com.jumpstart.food_ordering_system.service;
 
 import com.jumpstart.food_ordering_system.Response.PageResponse;
 import com.jumpstart.food_ordering_system.Response.Response;
+import com.jumpstart.food_ordering_system.dto.CategoryDto;
 import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.entity.Category;
 import com.jumpstart.food_ordering_system.entity.Menu;
@@ -22,6 +23,7 @@ public class MenuServiceImpl implements MenuService{
 
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     @Override
     public Response<MenuDto> createMenu(MenuDto dto) {
@@ -109,6 +111,20 @@ public class MenuServiceImpl implements MenuService{
         menuRepository.delete(foudMenu);
 
         return Response.success("Menu is successfully deleted", null);
+    }
+    // Get category from menu
+
+    @Override
+    public Response<CategoryDto> getCategoryFromMenu(Long id) {
+
+        Optional<Menu> menu = menuRepository.findById(id);
+
+        Menu foundMenu = menu.orElseThrow(()->new MenuNotFoundException("Menu for id: "+id+ " is not found"));
+
+        CategoryDto categoryDto = categoryService.getCategoryById(foundMenu.getCategory().getId());
+
+
+        return Response.success("Category retrieved successfully", categoryDto);
     }
 
     //Method that will find the menus by category

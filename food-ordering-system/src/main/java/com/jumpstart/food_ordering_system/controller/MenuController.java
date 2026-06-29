@@ -3,6 +3,7 @@ package com.jumpstart.food_ordering_system.controller;
 
 import com.jumpstart.food_ordering_system.Response.PageResponse;
 import com.jumpstart.food_ordering_system.Response.Response;
+import com.jumpstart.food_ordering_system.dto.CategoryDto;
 import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.service.MenuService;
 import jakarta.validation.Valid;
@@ -30,7 +31,12 @@ public class MenuController {
 
         return ResponseEntity.ok(response);
     }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<MenuDto>> updateManu(@PathVariable Long id,@Valid @RequestBody MenuDto menuDto)
+    {
+        Response<MenuDto> response = menuService.updateById(id,menuDto);
+        return  ResponseEntity.ok(response);
+    }
     @GetMapping("/{id}")
     public  ResponseEntity<Response<MenuDto>> byId(@Valid @PathVariable Long id)
     {
@@ -38,11 +44,12 @@ public class MenuController {
 
         return ResponseEntity.ok(response);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<Response<MenuDto>> updateManu(@PathVariable Long id,@Valid @RequestBody MenuDto menuDto)
+    @GetMapping("/{id}/category")
+    public  ResponseEntity<Response<CategoryDto>> getCategoryFromMenu(@PathVariable Long id)
     {
-        Response<MenuDto> response = menuService.updateById(id,menuDto);
-        return  ResponseEntity.ok(response);
+           Response<CategoryDto> response = menuService.getCategoryFromMenu(id);
+
+           return ResponseEntity.ok(response);
     }
     //Get all  menus, get menus by categoryId, sort by price(ASC, DESC,)
     @GetMapping
@@ -80,5 +87,6 @@ public class MenuController {
 
         return ResponseEntity.ok(response);
     }
+
 
 }
