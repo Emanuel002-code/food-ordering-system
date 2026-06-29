@@ -61,21 +61,11 @@ public class GlobalExceptionAdvice
                 .body(Response.error(400, message));
     }
 
-/*
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response<Void>> handleException(Exception ex) {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Response.error(500, "An unexpected error occurred."));
-    }
-    */
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Response<Void>> handleException(Exception ex) {
-
-        ex.printStackTrace();
-
-        throw new RuntimeException(ex);
     }
 
 
