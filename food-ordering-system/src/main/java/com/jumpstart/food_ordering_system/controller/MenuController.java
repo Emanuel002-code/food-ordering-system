@@ -7,6 +7,7 @@ import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.service.MenuService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,14 +31,6 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
-   /* @GetMapping
-    public  ResponseEntity<Response<List<MenuDto>>> all()
-    {
-        Response<List<MenuDto>> menuResponse = menuService.getAllMenus();
-
-        return ResponseEntity.ok(menuResponse);
-    }*/
-
     @GetMapping("/{id}")
     public  ResponseEntity<Response<MenuDto>> byId(@Valid @PathVariable Long id)
     {
@@ -51,11 +44,12 @@ public class MenuController {
         Response<MenuDto> response = menuService.updateById(id,menuDto);
         return  ResponseEntity.ok(response);
     }
-    //Get all  menus  and also  get menus by categoryId
+    //Get all  menus, get menus by categoryId, sort by price(ASC, DESC,)
     @GetMapping
     public ResponseEntity<Response<PageResponse<MenuDto>>> getMenus(@RequestParam(required = false) Long categoryId,
                                                                                  @RequestParam(required =false ) String search,
-                                                                                 @RequestParam(required = false) String sort,   Pageable pageable)
+                                                                                 @RequestParam(required = false) String sort,
+                                                                                 @PageableDefault(size = 10)  Pageable pageable)
     {
         Response<PageResponse<MenuDto>> response;
        if(search != null && categoryId !=null )
@@ -78,6 +72,13 @@ public class MenuController {
 
            return  ResponseEntity.ok(response);
 
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<Void>> deleteMenuItem(@PathVariable Long id)
+    {
+        Response<Void> response  = menuService.deleteMenu(id);
+
+        return ResponseEntity.ok(response);
     }
 
 }

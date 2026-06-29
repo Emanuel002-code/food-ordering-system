@@ -11,13 +11,8 @@ import com.jumpstart.food_ordering_system.repository.CategoryRepository;
 import com.jumpstart.food_ordering_system.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -113,7 +108,7 @@ public class MenuServiceImpl implements MenuService{
 
         menuRepository.delete(foudMenu);
 
-        return Response.success("Menu deleted", null);
+        return Response.success("Menu is successfully deleted", null);
     }
 
     //Method that will find the menus by category
