@@ -7,7 +7,7 @@ package com.jumpstart.food_ordering_system.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import javax.xml.transform.sax.SAXResult;
+
 
 public class CategoryDto
 {

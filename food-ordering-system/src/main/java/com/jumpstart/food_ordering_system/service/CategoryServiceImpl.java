@@ -2,8 +2,10 @@ package com.jumpstart.food_ordering_system.service;
 
 import com.jumpstart.food_ordering_system.dto.CategoryDto;
 import com.jumpstart.food_ordering_system.entity.Category;
+import com.jumpstart.food_ordering_system.exception.CategoryHasMenusException;
 import com.jumpstart.food_ordering_system.exception.CategoryNotFoundException;
 import com.jumpstart.food_ordering_system.repository.CategoryRepository;
+import com.jumpstart.food_ordering_system.repository.MenuRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +20,13 @@ public class CategoryServiceImpl  implements  CategoryService{
 
 
     private  final CategoryRepository categoryRepository;
+    private  final MenuRepository menuRepository;
 
     //create a constructor using Dependency Injection Design pattern
-    public CategoryServiceImpl(CategoryRepository categoryRepository)
+    public CategoryServiceImpl(CategoryRepository categoryRepository, MenuRepository menuRepository)
     {
         this.categoryRepository = categoryRepository;
+        this.menuRepository = menuRepository;
 
     }
 
@@ -87,7 +91,7 @@ public class CategoryServiceImpl  implements  CategoryService{
         foundCategory.setName(dto.getName());
 
         if (dto.getDescription() != null)
-        { foundCategory.setDescription(dto.getDescription()); };
+        { foundCategory.setDescription(dto.getDescription()); }
 
         //save the updated category
         Category updatedCategory= categoryRepository.save(foundCategory);
@@ -105,6 +109,13 @@ public class CategoryServiceImpl  implements  CategoryService{
 
         //throw the exception if the category is not found
         Category deleteCategory = category.orElseThrow(()->new CategoryNotFoundException("Category with id "+id +" not found"));
+
+        if(menuRepository.existsByCategory(deleteCategory))
+        {
+            throw new CategoryHasMenusException(
+                    "Cannot delete category because it contains menu items"
+            );
+        }
 
         //delete the category
         categoryRepository.delete(deleteCategory);
