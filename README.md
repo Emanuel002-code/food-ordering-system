@@ -26,7 +26,7 @@
 6. config     -contains application configuration classes (defines beans and settings, handles security,Swagger, etc.).
 7. exception  -handles application errors in a centralized way (manages execeptions, handles errors).
 
-    ------------------------------------------------Endpoints----------------------------------
+    ---------------------------------------Category Endpoints----------------------------------
 
 | Method | URL                       | Body         |
 |--------|---------------------------|--------------|
@@ -35,3 +35,103 @@
 | GET    | /api/categories/{id}      | -            |
 | PUT    | /api/categories/{id}      | { "name" }   |
 | DELETE | /api/categories/{id}      | -            |
+
+------------------------------------------Menu Endpoints--------------------------------------
+
+
+| Method | Path           | Description                                                         | Query Parameters                     |
+| ------ |----------------| ------------------------------------------------------------------- | ------------------------------------ |
+| POST   | /api/menu      | Create a new menu item                                              | None                                 |
+| GET    | /api/menu      | Retrieve menu items with optional filtering, pagination and sorting | categoryId, search, page, size, sort |
+| GET    | /api/menu/{id} | Retrieve a menu item by ID                                          | None                                 |
+| PUT    | /api/menu/{id} | Update a menu item                                                  | None                                 |
+| DELETE | /api/menu/{id} | Delete a menu item                                                  | None                                 |
+
+---
+
+## Query Parameters
+
+| Parameter  | Type    | Description                                                | Default  |
+|------------| ------- | ---------------------------------------------------------- |----------|
+| categoryId | Long    | Filter menus by category                                   | Optional |
+| search     | String  | Case-insensitive partial search on menu name               | Optional |
+| page       | Integer | Zero-based page number                                     | 0        |
+| size       | Integer | Number of items per page                                   | 10       |
+| sort       | String  | Sort by field and direction (e.g. price,asc or price,desc) | None     |
+
+---
+
+## Example Request
+
+Retrieve page 0, with 5 menu items, filtered by category, searched by name and sorted by price.
+
+```
+GET /api/menu?categoryId=1&search=burger&page=0&size=5&sort=price,asc
+```
+
+---
+
+## Example Response
+
+```json
+{
+   "message": "Menus retrieved successfully",
+   "data": {
+      "content": [
+         {
+            "id": 7,
+            "name": "Cheese Burger",
+            "price": 49.99,
+            "categoryId": 1,
+            "categoryName": "Fast Food",
+            "description": "Beef patty with cheese",
+            "imageUrl": "https://placehold.co/300"
+         },
+         {
+            "id": 10,
+            "name": "Chicken Burger",
+            "price": 55.00,
+            "categoryId": 1,
+            "categoryName": "Fast Food",
+            "description": "Crispy chicken",
+            "imageUrl": "https://placehold.co/300"
+         },
+         {
+            "id": 11,
+            "name": "Chicken Burger",
+            "price": 55.00,
+            "categoryId": 1,
+            "categoryName": "Fast Food",
+            "description": "Crispy chicken",
+            "imageUrl": "https://placehold.co/300"
+         },
+         {
+            "id": 12,
+            "name": "Chicken Burger",
+            "price": 55.00,
+            "categoryId": 1,
+            "categoryName": "Fast Food",
+            "description": "Crispy chicken",
+            "imageUrl": "https://placehold.co/300"
+         },
+         {
+            "id": 13,
+            "name": "Chicken Burger",
+            "price": 55.00,
+            "categoryId": 1,
+            "categoryName": "Fast Food",
+            "description": "Crispy chicken",
+            "imageUrl": "https://placehold.co/300"
+         }
+      ],
+      "totalElements": 6,
+      "totalPages": 2,
+      "number": 0,
+      "size": 5,
+      "first": true,
+      "last": false
+   },
+   "statusCode": 200,
+   "timestamp": "2026-06-29T10:25:55.857133"
+}
+```
