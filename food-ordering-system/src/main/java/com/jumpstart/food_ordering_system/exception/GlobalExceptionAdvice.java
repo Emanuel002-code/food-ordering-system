@@ -2,6 +2,8 @@ package com.jumpstart.food_ordering_system.exception;
 
 import com.jumpstart.food_ordering_system.Response.Response;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,6 +47,21 @@ public class GlobalExceptionAdvice
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.error(400, message));
     }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Response<Void>> handleConstraintViolation(ConstraintViolationException ex) {
+
+        String message = ex.getConstraintViolations()
+                .stream()
+                .findFirst()
+                .map(ConstraintViolation::getMessage)
+                .orElse("Validation error");
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Response.error(400, message));
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response<Void>> handleException(Exception ex) {
 

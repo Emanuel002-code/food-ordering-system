@@ -7,15 +7,18 @@ import com.jumpstart.food_ordering_system.dto.CategoryDto;
 import com.jumpstart.food_ordering_system.dto.MenuDto;
 import com.jumpstart.food_ordering_system.service.MenuService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/menu")
+@Validated
 public class MenuController {
 
     private  final MenuService menuService;
@@ -54,27 +57,31 @@ public class MenuController {
     //Get all  menus, get menus by categoryId, sort by price(ASC, DESC,)
     @GetMapping
     public ResponseEntity<Response<PageResponse<MenuDto>>> getMenus(@RequestParam(required = false) Long categoryId,
-                                                                                 @RequestParam(required =false ) String search,
-                                                                                 @RequestParam(required = false) String sort,
-                                                                                 @PageableDefault(size = 10)  Pageable pageable)
+                                                                    @RequestParam(required =false ) String search,
+
+                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "10")  @Min(value = 1, message = "Size must be at least 1") int size,
+                                                                    Pageable pageable)
+
     {
+        Pageable finalPageable  =  PageRequest.of(page, size, pageable.getSort());
         Response<PageResponse<MenuDto>> response;
        if(search != null && categoryId !=null )
         {
-            response = menuService.findByCategoryIdSearch(categoryId,search, pageable);
+            response = menuService.findByCategoryIdSearch(categoryId,search, finalPageable);
         }
          else if (search != null )
         {
-            response= menuService.searchMenus(search, pageable);
+            response= menuService.searchMenus(search, finalPageable);
 
         }
         else if(categoryId !=null)
         {
-            response = menuService.findMenuByCategory(categoryId, pageable );
+            response = menuService.findMenuByCategory(categoryId, finalPageable);
         }
         else
         {
-          response = menuService.getAllMenus(pageable);
+          response = menuService.getAllMenus(finalPageable);
         }
 
            return  ResponseEntity.ok(response);
